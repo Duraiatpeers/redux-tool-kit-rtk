@@ -1,13 +1,15 @@
-import {legacy_createStore as createStore} from 'redux';
-import { composeWithDevTools }  from "@redux-devtools/extension";
-import {countReducer} from './counterReducer'
+import { configureStore } from "@reduxjs/toolkit";
 
+import counterReducer from "./counterSlice";
 
-export const store = createStore(countReducer,composeWithDevTools())
-export type ROOTState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer
+  }
+});
 
+export type RootState =
+  ReturnType<typeof store.getState>;
 
-
-
-
+export type AppDispatch =
+  typeof store.dispatch;

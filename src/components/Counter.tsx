@@ -1,8 +1,11 @@
+import { useState } from "react";
+
 import {
   Button,
   Card,
   CardContent,
   Stack,
+  TextField,
   Typography
 } from "@mui/material";
 
@@ -14,8 +17,9 @@ import {
 import {
   increment,
   decrement,
-  reset
-} from "../redux/counterActions";
+  reset,
+  incrementBy
+} from "../redux/counterSlice";
 
 import type {
   RootState,
@@ -24,14 +28,17 @@ import type {
 
 function Counter() {
   const count = useSelector(
-    (state: RootState) => state.count
+    (state: RootState) => state.counter.count
   );
 
   const dispatch =
     useDispatch<AppDispatch>();
 
+  const [amount, setAmount] =
+    useState<number>(1);
+
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ maxWidth: 450 }}>
       <CardContent>
 
         <Stack
@@ -80,6 +87,26 @@ function Counter() {
             </Button>
 
           </Stack>
+
+          <TextField
+            label="Amount"
+            type="number"
+            value={amount}
+            onChange={(event) =>
+              setAmount(
+                Number(event.target.value)
+              )
+            }
+          />
+
+          <Button
+            variant="contained"
+            onClick={() =>
+              dispatch(incrementBy(amount))
+            }
+          >
+            Increment By
+          </Button>
 
         </Stack>
 
